@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.socket.io/4.4.0/socket.io.min.js" integrity="sha384-1fOn6VtTq3PWwfsOrk45LnYcGosJwzMHv+Xh/Jx5303FVOXzEnw0EpLv30mtjmlj" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="CSS/main.css">
+    <link rel="icon" href="images/<%= iconUrl%>" sizes="60x60" type="image/png">
+    <title>Start conversation on
+        <%= roomName%>
+    </title>
+
+</head>
+
+<body>
+    <div class="main">
+        <div class="head">
+            <img src="images/<%=imageUrl%>" alt="">
+            <h1>
+                <%= roomName%>
+            </h1>
+            <p>Group created by admin.</p>
+            <p style="text-align: center;">Welcome
+                <%= name %> in
+                    <%= roomName%> Group.</p>
+            <p><span id="users"></span>&nbsp;Active users.</p>
+        </div>
+        <audio id="audio">
+            <source src="audios/ring.mp3"> 
+        </audio>
+        <div class="chatContainer" id="messageContainer">
+
+        </div>
+    </div>
+
+    <div class="send">
+        <form action="#" id="sendMessage">
+            <input type="text" name="messageInp" id="messageInp" required>
+            <button class="btn" type="submit">Send</button>
+        </form>
+    </div>
+    <script>
+        let name = '<%= name%>';
+        let roomId = '<%= roomId%>';
+        const socket = io('http://localhost:8000');
+        const form = document.getElementById('sendMessage');
+        const messageInput = document.getElementById('messageInp');
+        const messageContainer = document.getElementById('messageContainer');
+        const numberOfuser = document.getElementById('users');
+        const audio = document.getElementById('audio');
+
+        function scrollWin() {
+            messageContainer.scrollBy(0, 70);
+        }
+        const append = (message, position) => {
+            if (position !== 'right') {
+                audio.play();
+            }
+            const messageElement = document.createElement('div');
+            messageElement.innerText = message;
+            messageElement.classList.add('message');
+            messageElement.classList.add(position);
+            messageContainer.append(messageElement);
+            scrollWin();
+        }
+
+
+        socket.emit('new-user-join', name, roomId);
+
+        socket.on('all', nou => {
+            numberOfuser.innerText = nou;
+        });
+
+        socket.on('user-joined', name => {
+            append(`${name} joined the conversation.`, 'join');
+        });
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const message = messageInput.value;
+            append("You\n" + message, 'right');
+            socket.emit('send', message, name);
+            messageInput.value = '';
+        });
+        socket.on('receive', data => {
+            append(data.name + "\n" + data.msg, 'left');
+        });
+
+        socket.on('leave', name => {
+            if (name != null) {
+                socket.on('all', nou => {
+                    numberOfuser.innerText = nou;
+                });
+                append(`${name} Leave the converstion.`, 'leave');
+            }
+        });
+    </script>
+</body>
+
+</html>

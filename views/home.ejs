@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="icon" href="images/liveChat.ico" sizes="60x60" type="image/png">
+    <title>Welcome Join in Group and Live Chat Now</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="intro">
+            <h1>Welcome
+                <%= userName%> to our Community.</h1>
+            <h2>Select any group and live chat now.</h2>
+        </div>
+        <div class="cards">
+            <div class="card">
+                <img class="card-img" src="images/mern.png" alt="Card image">
+                <div class="card-body">
+                    <h4 class="card-title">MERN STACK</h4>
+                    <p class="card-text">MERN is a free and open-source JavaScript software stack for building dynamic web sites and web applications. </p>
+                    <button class="card-btn">
+                        <a href="/MERN?name=<%= userName%>">Join Now</a>
+                    </button>
+                </div>
+            </div>
+            <div class="card">
+                <img class="card-img" src="images/php.jpg" alt="Card image">
+                <div class="card-body">
+                    <h4 class="card-title">PHP</h4>
+                    <p class="card-text">PHP is a general-purpose scripting language geared towards web development.</p>
+                    <button class="card-btn">
+                        <a href="/PHP?name=<%= userName%>">Join Now</a>
+                    </button>
+                </div>
+            </div>
+            <div class="card">
+                <img class="card-img" src="images/python.png" alt="Card image">
+                <div class="card-body">
+                    <h4 class="card-title">Python</h4>
+                    <p class="card-text">Python is an interpreted high-level general-purpose programming language.</p>
+                    <button class="card-btn">
+                        <a href="/Python?name=<%= userName%>">Join Now</a>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

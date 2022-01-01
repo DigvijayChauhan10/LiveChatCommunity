@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Enter Your Name</title>
+    <link rel="stylesheet" href="CSS/form.css">
+    <link rel="icon" href="images/liveChat.ico" sizes="60x60" type="image/png">
+</head>
+
+<body>
+    <div class="main">
+        <div class="container">
+            <h2>JOIN CHAT NOW</h2>
+            <form onsubmit="return allLetter()" action="" name="form" method="post">
+                <span id="label">Enter Your Name</span>
+                <input type="text" id="input" name="userName" size="40">
+                <span id="error"></span>
+                <button type="submit">JOIN</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        function allLetter() {
+            var name = document.getElementById("input").value;
+            var letters = /^[A-Za-z\s]+$/;
+            if (name == "") {
+                document.getElementById("error").innerText = "Please Fill Your Name";
+                return false;
+            }
+            if (!name.match(letters)) {
+                document.getElementById("error").innerText = "Please Enter Only Alphabets";
+                return false;
+            } else {
+                return true;
+            }
+
+        }
+        placeholder_input = document.querySelector('#input');
+        placeholder_label = document.querySelector('#label');
+
+        placeholder_input.onchange = function() {
+            if (placeholder_input.value !== '') {
+                placeholder_label.style.transform = 'translateY(-20px)';
+            } else {
+                placeholder_label.style.transform = '';
+            }
+        }
+    </script>
+</body>
+
+</html>
